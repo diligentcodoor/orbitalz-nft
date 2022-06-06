@@ -1,0 +1,20 @@
+{
+  "name": "orbitalz-nft",
+  "license": "MIT",
+  "version": "1.0.0",
+  "description": "Solidity contracts for the Orbitalz NFTs on Ethereum.",
+  "files": [
+    "src/**/*.sol"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diligentcodoor/orbitalz-nft.git"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.13"
+  },
+  "scripts": {
+    "lint": "prettier --write **.sol"
+  }
+}
