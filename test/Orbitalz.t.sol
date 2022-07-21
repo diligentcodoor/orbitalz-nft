@@ -113,4 +113,38 @@ contract OrbitalzTest is Test {
         orbitalz.godBigBang(minter, 10_001);
         assertEq(orbitalz.balanceOf(orbitalz.owner()), 0);
     }
+
+    function testOnlyOwnerCanOpenMinting() public {
+        vm.prank(vm.addr(1));
+
+        vm.expectRevert("UNAUTHORIZED");
+        orbitalz.setAfterBigBang(true);
+
+        assertEq(orbitalz.afterBigBang(), false);
+    }
+
+    function testHarvestStardust() public {
+        address owner = vm.addr(1);
+        orbitalz.setOwner(owner);
+
+        vm.deal(owner, 0);
+        vm.deal(address(orbitalz), 1);
+
+        vm.prank(orbitalz.owner());
+        orbitalz.harvestStarDust();
+
+        assertEq(orbitalz.owner().balance, 1);
+    }
+
+    function testOnlyOwnerCanHarvestStardust() public {
+        address notOwner = vm.addr(1);
+        vm.deal(address(orbitalz), 1);
+
+        vm.prank(notOwner);
+        vm.expectRevert("UNAUTHORIZED");
+        orbitalz.harvestStarDust();
+
+        assertEq(notOwner.balance, 0);
+        assertEq(address(orbitalz).balance, 1);
+    }
 }

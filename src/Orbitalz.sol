@@ -35,8 +35,8 @@ contract Orbitalz is ERC721A, Owned {
         afterBigBang = _afterBigBang;
     }
 
-    function harvestStarDust() public payable onlyOwner {
-        (bool success, ) = payable(msg.sender).call{value: address(this).balance}("");
+    function harvestStarDust() public onlyOwner {
+        (bool success, ) = payable(owner).call{value: address(this).balance}("");
         require(success);
     }
 
