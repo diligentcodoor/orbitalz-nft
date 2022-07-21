@@ -10,24 +10,27 @@ error RobotzCantMint();
 error BlackHoleError();
 
 contract Orbitalz is ERC721A, Owned {
-    uint256 public immutable walletLimit = 3;
-    uint256 public immutable orbitalzLimit = 10_000;
     bool public afterBigBang = false;
+    string public baseURI;
+    uint256 public constant WALLET_LIMIT = 3;
+    uint256 public constant TOTAL_SUPPLY = 10_000;
 
-    constructor() ERC721A("Orbitalz", "ORBITALZ") Owned(msg.sender) {}
+    constructor(string memory baseTokenURI) ERC721A("Orbitalz", "ORBITALZ") Owned(msg.sender) {
+        baseURI = baseTokenURI;
+    }
 
     function bigBang() external payable {
         if (!afterBigBang) revert BigBangNotStarted();
         if (msg.sender != tx.origin) revert RobotzCantMint();
         if (balanceOf(msg.sender) > 0) revert BlackHoleError();
-        uint256 toMint = min(orbitalzLimit - _totalMinted(), walletLimit);
+        uint256 toMint = min(TOTAL_SUPPLY - _totalMinted(), WALLET_LIMIT);
         if (toMint == 0) revert UniverseExpansionLimit();
         _mint(msg.sender, toMint);
     }
 
-    function godBigBang(address god, uint256 _orbitalz) public onlyOwner {
-        if (_orbitalz + _totalMinted() > orbitalzLimit) revert UniverseExpansionLimit();
-        _mint(god, _orbitalz);
+    function godBigBang(address god, uint256 orbitalz) external onlyOwner {
+        if (orbitalz + _totalMinted() > TOTAL_SUPPLY) revert UniverseExpansionLimit();
+        _mint(god, orbitalz);
     }
 
     function setAfterBigBang(bool _afterBigBang) external onlyOwner {
@@ -35,9 +38,13 @@ contract Orbitalz is ERC721A, Owned {
         afterBigBang = _afterBigBang;
     }
 
-    function harvestStarDust() public onlyOwner {
+    function harvestStarDust() external onlyOwner {
         (bool success, ) = payable(owner).call{value: address(this).balance}("");
         require(success);
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseURI;
     }
 
     /**

@@ -8,7 +8,7 @@ contract OrbitalzTest is Test {
     Orbitalz orbitalz;
 
     function setUp() public {
-        orbitalz = new Orbitalz();
+        orbitalz = new Orbitalz("placeholder/");
     }
 
     function testName() public {
@@ -24,15 +24,29 @@ contract OrbitalzTest is Test {
     }
 
     function testWalletLimit() public {
-        assertEq(orbitalz.walletLimit(), 3);
+        assertEq(orbitalz.WALLET_LIMIT(), 3);
     }
 
-    function testOrbitalzLimit() public {
-        assertEq(orbitalz.orbitalzLimit(), 10_000);
+    function testTotalSupply() public {
+        assertEq(orbitalz.TOTAL_SUPPLY(), 10_000);
     }
 
     function testAfterBigBang() public {
         assertEq(orbitalz.afterBigBang(), false);
+    }
+
+    function testbaseURI() public {
+        orbitalz = new Orbitalz("placeholder/");
+        assertEq(orbitalz.baseURI(), "placeholder/");
+    }
+
+    function testTokenURI() public {
+        orbitalz.setAfterBigBang(true);
+        address minter = vm.addr(1);
+        vm.prank(minter, minter);
+        orbitalz.bigBang();
+
+        assertEq(orbitalz.tokenURI(0), "placeholder/0");
     }
 
     function testBigBang() public {
