@@ -20,3 +20,6 @@ forge test
 ```sh
 forge snapshot
 ```
+
+### Random note on implementing proxies in foundry
+https://github.com/foundry-rs/foundry/issues/693
