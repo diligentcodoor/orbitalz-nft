@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.13;
+pragma solidity ^0.8.16;
 
 import {ERC721A} from "erc721a/ERC721A.sol";
 import {Owned} from "solmate/auth/Owned.sol";

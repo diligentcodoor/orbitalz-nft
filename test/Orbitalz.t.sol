@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.13;
+pragma solidity ^0.8.16;
 
 import {Test} from "forge-std/Test.sol";
 import {Orbitalz, BigBangNotStarted, UniverseExpansionLimit, RobotzCantMint, BlackHoleError} from "../src/Orbitalz.sol";
