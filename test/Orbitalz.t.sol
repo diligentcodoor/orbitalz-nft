@@ -2,7 +2,9 @@
 pragma solidity ^0.8.16;
 
 import {Test} from "forge-std/Test.sol";
-import {Orbitalz, BigBangNotStarted, UniverseExpansionLimit, RobotzCantMint, BlackHoleError} from "../src/Orbitalz.sol";
+import {
+    Orbitalz, BigBangNotStarted, UniverseExpansionLimit, RobotzCantMint, BlackHoleError
+} from "../src/Orbitalz.sol";
 
 contract OrbitalzTest is Test {
     Orbitalz orbitalz;

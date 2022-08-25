@@ -20,26 +20,35 @@ contract Orbitalz is ERC721A, Owned {
     }
 
     function bigBang() external payable {
-        if (!afterBigBang) revert BigBangNotStarted();
-        if (msg.sender != tx.origin) revert RobotzCantMint();
-        if (balanceOf(msg.sender) > 0) revert BlackHoleError();
+        if (!afterBigBang) {
+            revert BigBangNotStarted();
+        }
+        if (msg.sender != tx.origin) {
+            revert RobotzCantMint();
+        }
+        if (balanceOf(msg.sender) > 0) {
+            revert BlackHoleError();
+        }
         uint256 toMint = min(TOTAL_SUPPLY - _totalMinted(), WALLET_LIMIT);
-        if (toMint == 0) revert UniverseExpansionLimit();
+        if (toMint == 0) {
+            revert UniverseExpansionLimit();
+        }
         _mint(msg.sender, toMint);
     }
 
     function godBigBang(address god, uint256 orbitalz) external onlyOwner {
-        if (orbitalz + _totalMinted() > TOTAL_SUPPLY) revert UniverseExpansionLimit();
+        if (orbitalz + _totalMinted() > TOTAL_SUPPLY) {
+            revert UniverseExpansionLimit();
+        }
         _mint(god, orbitalz);
     }
 
     function setAfterBigBang(bool _afterBigBang) external onlyOwner {
-        require(msg.sender == owner);
         afterBigBang = _afterBigBang;
     }
 
     function harvestStarDust() external onlyOwner {
-        (bool success, ) = payable(owner).call{value: address(this).balance}("");
+        (bool success,) = payable(owner).call{value: address(this).balance}("");
         require(success);
     }
 
